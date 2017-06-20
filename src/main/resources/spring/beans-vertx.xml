@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:cxf="http://cxf.apache.org/core"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://cxf.apache.org/jaxrs
+        http://cxf.apache.org/schemas/jaxrs.xsd
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd"
+    default-lazy-init="false">
+
+    <!-- Verticles and other vert-x setup (routes etc.) -->
+    <bean id="proxyVerticle" class="com.github.kislayverma.nexus.verticle.HttpProxyVerticle">
+        <property name="routeConfigurer" ref="routeConfigurer"/>
+    </bean>
+    <bean id="routeConfigurer" class="com.github.kislayverma.nexus.routes.RouteConfigurer">
+        <property name="proxyRouteFactory" ref="proxyRouteFactory"/>
+    </bean>
+    <bean id="proxyRouteFactory" class="com.github.kislayverma.nexus.routes.ProxyRouteFactory" init-method="init"/>
+</beans>
