@@ -26,9 +26,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Kislay Verma
  */
 public class SpringContextLoader {
-    private AnnotationConfigApplicationContext ctx;
-    private ApplicationContext context;
-//    private final String[] springContextFilePaths = new String[] {"spring/beans-vertx.xml", "spring/beans-proxy-routes.xml"};
+    private final AnnotationConfigApplicationContext ctx;
+    private final ApplicationContext context;
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringContextLoader.class);
 
     public SpringContextLoader(String[] springContextFilePaths) {
@@ -39,7 +38,7 @@ public class SpringContextLoader {
 
         context = new ClassPathXmlApplicationContext(springContextFilePaths);
         for (String beanName : context.getBeanDefinitionNames()) {
-            LOGGER.error("Loading spring bean : " + beanName);
+            LOGGER.debug("Loading spring bean : " + beanName);
             ctx.getBeanFactory().registerSingleton(beanName, context.getBean(beanName));
         }
 

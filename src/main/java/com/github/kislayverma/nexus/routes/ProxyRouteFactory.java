@@ -42,8 +42,8 @@ public class ProxyRouteFactory implements ApplicationContextAware {
 
         for (ProxyRoute bean : getBeans()) {
             try {
-                LOGGER.info("Adding bean with key :" + bean.getKey() + "-- class name :" + bean.getClass());
-                h.put(bean.getKey(), bean);
+                LOGGER.info("Adding bean with key :" + bean.getRoute() + "-- class name :" + bean.getClass());
+                h.put(bean.getRoute(), bean);
             } catch (Exception e) {
                 LOGGER.debug("Error initializing ProxyRouteFactory", e);
             }

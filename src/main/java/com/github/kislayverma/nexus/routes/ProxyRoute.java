@@ -15,17 +15,120 @@
  */
 package com.github.kislayverma.nexus.routes;
 
+import com.github.kislayverma.nexus.util.MiscUtil;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.client.HttpRequest;
+import io.vertx.ext.web.client.HttpResponse;
+import io.vertx.ext.web.client.WebClient;
+import io.vertx.ext.web.client.WebClientOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author Kislay Verma
  */
 public class ProxyRoute {
-    private String key;
     private String route;
     private String targetBaseUrl;
     private String httpMethod;
     private Long timeout;
     private Integer port;
+    private WebClient client;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
+    public Router configure(Vertx vertx, Router router) {
+        WebClientOptions clientOptions = new WebClientOptions().setLogActivity(true).setMaxPoolSize(100);
+        this.client = WebClient.create(vertx, clientOptions);
+
+        switch (httpMethod.toUpperCase()) {
+            case "GET":
+                router.get(route).handler(this::doProxyGet);
+                break;
+            case "POST":
+                router.post(route).handler(this::doProxyPost);
+                break;
+            case "PUT":
+                router.put(route).handler(this::doProxyPut);
+                break;
+            default:
+                throw new RuntimeException("Unsupported HTTP method on proxy route " + route);
+        }
+
+        return router;
+    }
+
+    public void doProxyGet(RoutingContext routingContext) {
+        LOGGER.debug("Matched route " + route);
+
+        long timeoutToUse = this.timeout == null ? 1000L : this.timeout;
+        int portToUse = (this.port == null) ? 80 : this.port;
+
+        // Blind passthrough - only change the host and port part of the incoming request.
+        // Sending the request URI will send both the path and the query params onwards
+        HttpRequest request = client.get(portToUse, targetBaseUrl, routingContext.request().uri()).timeout(timeoutToUse);
+        request = MiscUtil.setRequestHeaders(request, routingContext, this);
+
+        request.send(r -> {
+            AsyncResult<HttpResponse<Buffer>> ar = (AsyncResult) r;
+            handleResponse(routingContext, ar);
+        });
+    }
+
+    private void doProxyPost(RoutingContext routingContext) {
+        LOGGER.debug("Matched route " + route);
+
+        long timeoutToUse = this.timeout == null ? 1000L : this.timeout;
+        int portToUse = (this.port == null) ? 80 : this.port;
+
+        // Blind passthrough - only change the host and port part of the incoming request.
+        // Sending the request URI will send both the path and the query params onwards
+        HttpRequest request = client.post(portToUse, targetBaseUrl, routingContext.request().uri()).timeout(timeoutToUse);
+        request = MiscUtil.setRequestHeaders(request, routingContext, this);
+        LOGGER.error("Request body : " + routingContext.getBody());
+        request.sendBuffer(routingContext.getBody(), r -> {
+            AsyncResult<HttpResponse<Buffer>> ar = (AsyncResult) r;
+            handleResponse(routingContext, ar);
+        });
+    }
+
+    private void doProxyPut(RoutingContext routingContext) {
+        LOGGER.debug("Matched route " + route);
+
+        long timeoutToUse = this.timeout == null ? 1000L : this.timeout;
+        int portToUse = (this.port == null) ? 80 : this.port;
+
+        // Blind passthrough - only change the host and port part of the incoming request.
+        // Sending the request URI will send both the path and the query params onwards
+        HttpRequest request = client.put(portToUse, targetBaseUrl, routingContext.request().uri()).timeout(timeoutToUse);
+        request = MiscUtil.setRequestHeaders(request, routingContext, this);
+        LOGGER.error("Request body : " + routingContext.getBody());
+        request.sendBuffer(routingContext.getBody(), r -> {
+            AsyncResult<HttpResponse<Buffer>> ar = (AsyncResult) r;
+            handleResponse(routingContext, ar);
+        });
+    }
+
+    private void handleResponse(RoutingContext routingContext, AsyncResult<HttpResponse<Buffer>> ar) {
+        if (ar.succeeded()) {
+            HttpResponse<Buffer> response = ar.result();
+            LOGGER.error("Request : " + (targetBaseUrl + routingContext.request().uri()) + "\tResponse status code : " + response.statusCode());
+            LOGGER.info("Reponse body : " + response.bodyAsString());
+
+            MiscUtil.setResponseHeaders(response, routingContext);
+            routingContext.response().setStatusCode(response.statusCode());
+            routingContext.response().setStatusMessage(response.statusMessage());
+
+            routingContext.response().end(response.bodyAsBuffer());
+        } else {
+            routingContext.fail(ar.cause());
+        }
+    }
 
     public String getRoute() {
         return route;
@@ -49,14 +152,6 @@ public class ProxyRoute {
 
     public void setHttpMethod(String httpMethod) {
         this.httpMethod = httpMethod;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 
     public Long getTimeout() {

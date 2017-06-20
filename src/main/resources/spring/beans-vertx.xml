@@ -20,9 +20,9 @@
 
     <!-- Verticles and other vert-x setup (routes etc.) -->
     <bean id="proxyVerticle" class="com.github.kislayverma.nexus.verticle.HttpProxyVerticle">
-        <property name="routeConfigurer" ref="routeConfigurer"/>
+        <property name="routeConfigurer" ref="proxyRouteConfigurer"/>
     </bean>
-    <bean id="routeConfigurer" class="com.github.kislayverma.nexus.routes.RouteConfigurer">
+    <bean id="proxyRouteConfigurer" class="com.github.kislayverma.nexus.routes.ProxyRouteConfigurer">
         <property name="proxyRouteFactory" ref="proxyRouteFactory"/>
     </bean>
     <bean id="proxyRouteFactory" class="com.github.kislayverma.nexus.routes.ProxyRouteFactory" init-method="init"/>
