@@ -87,7 +87,6 @@ public class RouteConfigurer extends BaseRouteConfigurer {
 
         // Blind passthrough - only change the host and port part of the incoming request.
         // Sending the request URI will send both the path and the query params onwards
-        LOGGER.error("CAlling : " + proxyRoute.getTargetBaseUrl() + "---" + routingContext.request().uri());
         HttpRequest request = client.get(port, proxyRoute.getTargetBaseUrl(), routingContext.request().uri()).timeout(timeout);
         request = MiscUtil.setRequestHeaders(request, routingContext, proxyRoute);
 

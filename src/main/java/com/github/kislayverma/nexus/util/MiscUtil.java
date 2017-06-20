@@ -31,7 +31,7 @@ public class MiscUtil {
 
     public static HttpRequest setRequestHeaders(HttpRequest request, RoutingContext routingContext, ProxyRoute proxyRoute) {
         routingContext.request().headers().entries().forEach((entry) -> {
-            LOGGER.error("Setting request header : " + entry.getKey() + " : " + entry.getValue());
+            LOGGER.debug("Setting request header : " + entry.getKey() + " : " + entry.getValue());
             request.putHeader(entry.getKey(), entry.getValue());
         });
         request.putHeader("Host", proxyRoute.getTargetBaseUrl());
