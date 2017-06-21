@@ -19,6 +19,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.ResponseTimeHandler;
 
 /**
  * This class gets and loads all the proxy routes.
@@ -34,7 +35,8 @@ public class ProxyRouteConfigurer extends BaseRouteConfigurer {
 
         Router router = Router.router(vertx);
 
-        // Enable body handlers for all POST and PUT requests
+        // Enable response time handlers fr all requests and body handler for all POST and PUT requests
+        router.route().handler(ResponseTimeHandler.create());
         router.route(HttpMethod.POST, "/*").handler(BodyHandler.create());
         router.route(HttpMethod.PUT, "/*").handler(BodyHandler.create());
 

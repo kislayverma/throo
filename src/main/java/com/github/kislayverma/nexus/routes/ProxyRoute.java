@@ -25,6 +25,7 @@ import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
+import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +42,7 @@ public class ProxyRoute {
     private WebClient client;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private static final String START_TIME_KEY = "proxyHandlerStartTime";
 
     public Router configure(Vertx vertx, Router router) {
         WebClientOptions clientOptions = new WebClientOptions().setLogActivity(true).setMaxPoolSize(100);
@@ -69,6 +71,7 @@ public class ProxyRoute {
         long timeoutToUse = this.timeout == null ? 1000L : this.timeout;
         int portToUse = (this.port == null) ? 80 : this.port;
 
+        routingContext.put(START_TIME_KEY, new Date().getTime());
         // Blind passthrough - only change the host and port part of the incoming request.
         // Sending the request URI will send both the path and the query params onwards
         HttpRequest request = client.get(portToUse, targetBaseUrl, routingContext.request().uri()).timeout(timeoutToUse);
@@ -86,6 +89,7 @@ public class ProxyRoute {
         long timeoutToUse = this.timeout == null ? 1000L : this.timeout;
         int portToUse = (this.port == null) ? 80 : this.port;
 
+        routingContext.put(START_TIME_KEY, new Date().getTime());
         // Blind passthrough - only change the host and port part of the incoming request.
         // Sending the request URI will send both the path and the query params onwards
         HttpRequest request = client.post(portToUse, targetBaseUrl, routingContext.request().uri()).timeout(timeoutToUse);
@@ -103,6 +107,7 @@ public class ProxyRoute {
         long timeoutToUse = this.timeout == null ? 1000L : this.timeout;
         int portToUse = (this.port == null) ? 80 : this.port;
 
+        routingContext.put(START_TIME_KEY, new Date().getTime());
         // Blind passthrough - only change the host and port part of the incoming request.
         // Sending the request URI will send both the path and the query params onwards
         HttpRequest request = client.put(portToUse, targetBaseUrl, routingContext.request().uri()).timeout(timeoutToUse);
@@ -117,7 +122,10 @@ public class ProxyRoute {
     private void handleResponse(RoutingContext routingContext, AsyncResult<HttpResponse<Buffer>> ar) {
         if (ar.succeeded()) {
             HttpResponse<Buffer> response = ar.result();
-            LOGGER.error("Request : " + (targetBaseUrl + routingContext.request().uri()) + "\tResponse status code : " + response.statusCode());
+            long timeTaken = (new Date().getTime()) - ((Long)routingContext.get(START_TIME_KEY));
+            LOGGER.error("Request : " + (targetBaseUrl + routingContext.request().uri()) + 
+                "\tResponse status code : " + response.statusCode() +
+                "\tResponse time : " + timeTaken);
             LOGGER.info("Reponse body : " + response.bodyAsString());
 
             MiscUtil.setResponseHeaders(response, routingContext);
