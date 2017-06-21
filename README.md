@@ -14,7 +14,7 @@ This will generate a "nexus-<version>-fat.jar" under the "target" folder. This i
 
 ### Run
 Execute the fat jar using the command : java -jar target/nexus-<version>-fat.jar    
-This should start up Nexus on port 8080 of your machine. Hitting http://localhost:8080/<your proxied routes> shoudl get you the data from the targte server.
+This should start up Nexus on port 8080 of your machine. Hitting http://localhost:8080/<your proxied routes> should get you the data from the target server.
 
 If you face problems related to DNS resolution (i.e. if you get an error saying the targte host could not be resolved, or no such host etc.), try running the application by disabling the netty DNS resolver and defaulting to the JDK DNS resolver.
 
