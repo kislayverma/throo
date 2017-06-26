@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kislayverma/nexus.svg?branch=master)](https://travis-ci.org/kislayverma/nexus)
+
 # Nexus
 A Vert.x/Spring based HTTP reverse-proxy
 
