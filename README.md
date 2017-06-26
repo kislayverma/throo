@@ -8,7 +8,7 @@ A Vert.x/Spring based HTTP reverse-proxy
 Clone this repository to your system.
 
 ### Configure proxy routes
-Open the "src/main/resources/spring/beans-proxy-routes.xml" file with your favourite and add the routes you want to proxy there along with other data to get this proxy working. A few sample routes are given under "src/main/resources/spring/samples/".    
+Open the "src/main/resources/spring/beans-proxy-routes.xml" file with your favourite editor and add the routes you want to proxy there along with other data to get this proxy working. A few sample routes are given under "src/main/resources/spring/samples/".    
 
 ### Build
 mvn clean package    
