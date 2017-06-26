@@ -31,7 +31,7 @@ public class SpringContextLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringContextLoader.class);
 
     public SpringContextLoader(String[] springContextFilePaths) {
-        LOGGER.error("Loading Spring configs...");
+        LOGGER.info("Loading Spring configs...");
         ctx = new AnnotationConfigApplicationContext();
         ctx.refresh();
         ctx.registerShutdownHook();
@@ -42,7 +42,7 @@ public class SpringContextLoader {
             ctx.getBeanFactory().registerSingleton(beanName, context.getBean(beanName));
         }
 
-        LOGGER.error("Finished loading spring beans");
+        LOGGER.info("Finished loading spring beans");
     }
 
     public <A> A getBean(Class<A> clazz) {

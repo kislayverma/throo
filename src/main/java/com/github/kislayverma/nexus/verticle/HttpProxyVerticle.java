@@ -34,7 +34,7 @@ public class HttpProxyVerticle extends AbstractVerticle {
 
     @Override
     public void start(Future<Void> fut) {
-        LOGGER.error("Starting proxy verticle...");
+        LOGGER.info("Starting proxy verticle...");
 
         // Set up all the routes and their handlers
         Router router = routeConfigurer.setRouteHandlers(vertx);

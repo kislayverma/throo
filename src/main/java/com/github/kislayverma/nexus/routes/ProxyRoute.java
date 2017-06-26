@@ -94,7 +94,7 @@ public class ProxyRoute {
         // Sending the request URI will send both the path and the query params onwards
         HttpRequest request = client.post(portToUse, targetBaseUrl, routingContext.request().uri()).timeout(timeoutToUse);
         request = MiscUtil.setRequestHeaders(request, routingContext, this);
-        LOGGER.error("Request body : " + routingContext.getBody());
+        LOGGER.debug("Request body : " + routingContext.getBody());
         request.sendBuffer(routingContext.getBody(), r -> {
             AsyncResult<HttpResponse<Buffer>> ar = (AsyncResult) r;
             handleResponse(routingContext, ar);
@@ -112,7 +112,7 @@ public class ProxyRoute {
         // Sending the request URI will send both the path and the query params onwards
         HttpRequest request = client.put(portToUse, targetBaseUrl, routingContext.request().uri()).timeout(timeoutToUse);
         request = MiscUtil.setRequestHeaders(request, routingContext, this);
-        LOGGER.error("Request body : " + routingContext.getBody());
+        LOGGER.debug("Request body : " + routingContext.getBody());
         request.sendBuffer(routingContext.getBody(), r -> {
             AsyncResult<HttpResponse<Buffer>> ar = (AsyncResult) r;
             handleResponse(routingContext, ar);
@@ -123,10 +123,10 @@ public class ProxyRoute {
         if (ar.succeeded()) {
             HttpResponse<Buffer> response = ar.result();
             long timeTaken = (new Date().getTime()) - ((Long)routingContext.get(START_TIME_KEY));
-            LOGGER.error("Request : " + (targetBaseUrl + routingContext.request().uri()) + 
+            LOGGER.info("Request : " + (targetBaseUrl + routingContext.request().uri()) + 
                 "\tResponse status code : " + response.statusCode() +
                 "\tResponse time : " + timeTaken);
-            LOGGER.info("Reponse body : " + response.bodyAsString());
+            LOGGER.debug("Response body : " + response.bodyAsString());
 
             MiscUtil.setResponseHeaders(response, routingContext);
             routingContext.response().setStatusCode(response.statusCode());

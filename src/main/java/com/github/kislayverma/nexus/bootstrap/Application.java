@@ -37,7 +37,7 @@ public class Application {
         if (springFilesStr != null) {
             String[] springFilesArr = springFilesStr.split(",");
             if (springFilesArr.length > 0) {
-            LOGGER.error("Loading spring config files : " + springFilesStr);
+            LOGGER.info("Loading spring config files : " + springFilesStr);
                 SpringContextLoader contextLoader = new SpringContextLoader(springFilesArr);
             }
         }
@@ -47,25 +47,25 @@ public class Application {
         if (configuredVerticleInstances != null && !configuredVerticleInstances.isEmpty()) {
             verticleInstances = Integer.parseInt(configuredVerticleInstances);
         }
-        LOGGER.error("Number of proxy verticles to instantiate : " + verticleInstances);
+        LOGGER.info("Number of proxy verticles to instantiate : " + verticleInstances);
 
         int workerPoolSize = 25;
         String configuredWorkerPoolSize = config.getProperty("application.workerPoolSize");
         if (configuredWorkerPoolSize != null && !configuredWorkerPoolSize.isEmpty()) {
             workerPoolSize = Integer.parseInt(configuredWorkerPoolSize);
         }
-        LOGGER.error("Worker pool size : " + workerPoolSize);
+        LOGGER.info("Worker pool size : " + workerPoolSize);
 
         String workerPoolName = "proxyWorkerPool";
         String configuredWorkerPoolName = config.getProperty("application.workerPoolName");
         if (configuredWorkerPoolName != null && !configuredWorkerPoolName.isEmpty()) {
             workerPoolName = configuredWorkerPoolName;
         }
-        LOGGER.error("Worker pool name : " + workerPoolName);
+        LOGGER.info("Worker pool name : " + workerPoolName);
 
         final Vertx vertx = Vertx.vertx();
 
-        LOGGER.error("Deploying verticles...");
+        LOGGER.info("Deploying verticles...");
         vertx.deployVerticle(HttpProxyVerticle.class.getName(),new DeploymentOptions()
             .setInstances(verticleInstances).setWorkerPoolSize(workerPoolSize).setWorkerPoolName(workerPoolName));
     }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--http://vertx.io/blog/centralized-logging-for-vert-x-applications-using-the-elk-stack/#app-logging-configuration-->
+<configuration status="info">
+    <appenders>
+        <Console name="console-log" target="SYSTEM_OUT">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %logger{36}:%L %M - %msg%xEx%n"/>
+        </Console>
+        <RollingFile name="nexus-log" fileName="logs/nexus.log" filePattern="logs/nexus-log-%d{MM-dd-yyyy}-%i.log.gz" append="false">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36}:%L %M - %msg%xEx%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="4"/>
+        </RollingFile>
+        <RollingFile name="nexus-proxy-log" fileName="logs/nexus-proxy.log" filePattern="logs/nexus-proxy-log-%d{MM-dd-yyyy}-%i.log.gz" append="false">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36}:%L %M - %msg%xEx%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="4"/>
+        </RollingFile>
+        <Async name="nexus-async">
+            <AppenderRef ref="console-log"/>
+            <AppenderRef ref="nexus-log"/>
+        </Async>
+        <Async name="nexus-proxy-async">
+            <AppenderRef ref="nexus-proxy-log"/>
+        </Async>
+    </appenders>
+    <Loggers>
+        <Root level="error" additivity="false">
+            <appender-ref ref="nexus-async"/>
+        </Root>
+        <Logger name="com.github.kislayverma.nexus.routes" level="info" additivity="false">
+            <appender-ref ref="nexus-proxy-async"/>
+        </Logger>
+    </Loggers>
+</configuration>

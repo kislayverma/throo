@@ -31,7 +31,7 @@ public class ProxyRouteConfigurer extends BaseRouteConfigurer {
 
     @Override
     public Router setRouteHandlers(Vertx vertx) {
-        LOGGER.error("Configuring proxy routes and registering handlers...");
+        LOGGER.info("Configuring proxy routes and registering handlers...");
 
         Router router = Router.router(vertx);
 
@@ -42,7 +42,7 @@ public class ProxyRouteConfigurer extends BaseRouteConfigurer {
 
         // Load all the proxy routes
         for (ProxyRoute proxyRoute : proxyRouteFactory.getAllRoutes()) {
-            LOGGER.error("Configuring route : [" + proxyRoute.getHttpMethod() + "] " + proxyRoute.getRoute());
+            LOGGER.info("Configuring route : [" + proxyRoute.getHttpMethod() + "] " + proxyRoute.getRoute());
             router = proxyRoute.configure(vertx, router);
         }
 
