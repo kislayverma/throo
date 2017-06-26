@@ -1,0 +1,2 @@
+language: java
+install: mvn clean package -Dgpg.skip=true -U
