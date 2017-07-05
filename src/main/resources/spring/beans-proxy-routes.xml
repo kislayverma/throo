@@ -19,12 +19,5 @@
     default-lazy-init="false">
     
     <!-- Add some proxy routes here. Refere spring/samples/beans-proxy-routes-samples.xml for reference -->
-    <bean id="routeOms" class="com.github.kislayverma.nexus.routes.ProxyRoute">
-        <property name="httpMethod"    value="GET"/>
-        <property name="route"         value="/myntra-oms-service/*"/>
-        <property name="targetBaseUrl" value="e5"/>
-        <property name="port"          value="7030"/>
-        <property name="timeout"       value="5000"/>
-    </bean>
 
 </beans>

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.kislayverma.nexus.verticle;
+package com.github.kislayverma.throo.verticle;
 
-import com.github.kislayverma.nexus.routes.BaseRouteConfigurer;
+import com.github.kislayverma.throo.routes.BaseRouteConfigurer;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerOptions;

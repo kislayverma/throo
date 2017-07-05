@@ -19,11 +19,11 @@
     default-lazy-init="false">
 
     <!-- Verticles and other vert-x setup (routes etc.) -->
-    <bean id="proxyVerticle" class="com.github.kislayverma.nexus.verticle.HttpProxyVerticle">
+    <bean id="proxyVerticle" class="com.github.kislayverma.throo.verticle.HttpProxyVerticle">
         <property name="routeConfigurer" ref="proxyRouteConfigurer"/>
     </bean>
-    <bean id="proxyRouteConfigurer" class="com.github.kislayverma.nexus.routes.ProxyRouteConfigurer">
+    <bean id="proxyRouteConfigurer" class="com.github.kislayverma.throo.routes.ProxyRouteConfigurer">
         <property name="proxyRouteFactory" ref="proxyRouteFactory"/>
     </bean>
-    <bean id="proxyRouteFactory" class="com.github.kislayverma.nexus.routes.ProxyRouteFactory" init-method="init"/>
+    <bean id="proxyRouteFactory" class="com.github.kislayverma.throo.routes.ProxyRouteFactory" init-method="init"/>
 </beans>

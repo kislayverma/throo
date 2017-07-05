@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.kislayverma.nexus.util;
+package com.github.kislayverma.throo.util;
 
-import com.github.kislayverma.nexus.routes.ProxyRoute;
+import com.github.kislayverma.throo.routes.ProxyRoute;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;

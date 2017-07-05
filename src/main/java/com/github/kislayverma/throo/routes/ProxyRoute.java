@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.kislayverma.nexus.routes;
+package com.github.kislayverma.throo.routes;
 
-import com.github.kislayverma.nexus.util.MiscUtil;
+import com.github.kislayverma.throo.util.MiscUtil;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;

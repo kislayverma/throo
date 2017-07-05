@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.kislayverma</groupId>
-    <artifactId>nexus</artifactId>
+    <artifactId>throo</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Nexus</name>
+    <name>Throo</name>
     <description>A Vert.x/Spring based HTTP-HTTP reverse proxy</description>
     <url>https://github.com/kislayverma/nexus</url>
 
@@ -25,9 +25,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:kislayverma/nexus.git</connection>
-        <developerConnection>scm:git:git@github.com:kislayverma/nexus.git</developerConnection>
-        <url>scm:git:git@github.com:kislayverma/nexus.git</url>
+        <connection>scm:git:git@github.com:kislayverma/throo.git</connection>
+        <developerConnection>scm:git:git@github.com:kislayverma/throo.git</developerConnection>
+        <url>scm:git:git@github.com:kislayverma/throo.git</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -132,8 +132,8 @@
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Main-Class>com.github.kislayverma.nexus.bootstrap.Application</Main-Class>
-                                        <Main-Verticle>com.github.kislayverma.nexus.verticle.HttpProxyVerticle</Main-Verticle>
+                                        <Main-Class>com.github.kislayverma.throo.bootstrap.Application</Main-Class>
+                                        <Main-Verticle>com.github.kislayverma.throo.verticle.HttpProxyVerticle</Main-Verticle>
                                     </manifestEntries>
                                 </transformer>
                                 <!--
