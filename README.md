@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/kislayverma/nexus.svg?branch=master)](https://travis-ci.org/kislayverma/nexus)
+[![Build Status](https://travis-ci.org/kislayverma/throo.svg?branch=master)](https://travis-ci.org/kislayverma/throo)
 
-# Nexus
+# Throo
 A Vert.x/Spring based HTTP reverse-proxy
 
 ## How to use this application
@@ -12,12 +12,12 @@ Open the "src/main/resources/spring/beans-proxy-routes.xml" file with your favou
 
 ### Build
 mvn clean package    
-This will generate a "nexus-[version]-fat.jar" under the "target" folder. This is an executable fat jar.
+This will generate a "throo-[version]-fat.jar" under the "target" folder. This is an executable fat jar.
 
 ### Run
-Execute the fat jar using the command : java -jar target/nexus-<version>-fat.jar    
+Execute the fat jar using the command : java -jar target/throo-<version>-fat.jar    
 This should start up Nexus on port 8080 of your machine. Hitting http://localhost:8080/[your proxied route] should get you the data from the target server.
 
 If you face problems related to DNS resolution (i.e. if you get an error saying the targte host could not be resolved, or no such host etc.), try running the application by disabling the netty DNS resolver and defaulting to the JDK DNS resolver.
 
-Like this : java -Dvertx.disableDnsResolver=true -jar target/nexus-[version]-fat.jar    
+Like this : java -Dvertx.disableDnsResolver=true -jar target/throo-[version]-fat.jar    
